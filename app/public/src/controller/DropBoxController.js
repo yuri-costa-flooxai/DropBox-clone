@@ -1,5 +1,8 @@
 class DropBoxController {
   constructor() {
+
+    this.currentFolder = ['hcode'];
+
     this.onselectionchange = new Event("selectionchange");
 
     this.btnSendFileEl = document.querySelector("#btn-send-file");
@@ -58,6 +61,19 @@ class DropBoxController {
   }
 
   initEvents() {
+
+    this.btnNewFolder.addEventListener('click', e => {
+      let name = prompt('Nome da nova pasta:');
+
+      if (name) {
+        this.getFirebaseRef().push().set({
+          name, 
+          type: 'folder',
+          path: this.currentFolder.join('/')
+        })
+      }
+    })
+
     this.btnDelete.addEventListener("click", (e) => {
       this.removeTask()
         .then((responses) => {
